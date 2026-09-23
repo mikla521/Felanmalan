@@ -59,13 +59,13 @@ Branchen ska utgå från den branch som teamet har bestämt som bas för utveckl
 Använd följande namngivning:
 
 ```text
-feature/US-XX-kort-beskrivning
+dev/feature/US-XX-kort-beskrivning
 ```
 
 Exempel:
 
 ```text
-feature/US-01-create-fault-report
+dev/feature/US-01-create-fault-report
 ```
 
 Använd samma User Story-nummer som i GitHub Issue.
