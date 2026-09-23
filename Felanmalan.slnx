@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="felanmalan.client/felanmalan.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Felanmalan.Server/Felanmalan.Server.csproj" />
+</Solution>

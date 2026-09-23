@@ -1,0 +1,6 @@
+@Felanmalan.Server_HostAddress = http://localhost:5145
+
+GET {{Felanmalan.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
