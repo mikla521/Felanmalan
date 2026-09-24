@@ -5,10 +5,29 @@ function CreateReportPage() {
     const [description, setDescription] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        setSubmitted(true);
+        try {
+            const response = await fetch('/api/felanmalan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    description: description,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Kunde inte skapa felanmälan.');
+            }
+
+            setSubmitted(true);
+            setDescription('');
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
