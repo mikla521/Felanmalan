@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Felanmalan.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTicketTimeCreated : Migration
+    public partial class removedstartvalue : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

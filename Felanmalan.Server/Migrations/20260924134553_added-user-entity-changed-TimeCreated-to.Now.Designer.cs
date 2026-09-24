@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Felanmalan.Server.Migrations
 {
     [DbContext(typeof(FelanmalanDbContext))]
-    [Migration("20260924132612_AddTicketTimeCreated")]
-    partial class AddTicketTimeCreated
+    [Migration("20260924134553_added-user-entity-changed-TimeCreated-to.Now")]
+    partial class addeduserentitychangedTimeCreatedtoNow
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,15 +43,33 @@ namespace Felanmalan.Server.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeCreated")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("TimeStarted")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Ticket");
+                });
+
+            modelBuilder.Entity("Felanmalan.Server.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }
