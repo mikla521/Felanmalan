@@ -26,7 +26,7 @@ public class FelanmalanController : ControllerBase
         var ticket = new Ticket
         {
             Description = request.Description.Trim(),
-            Category = request.Category!.Value,
+            Category = TicketCategory.NotSet,
             Status = TicketStatus.New,
             TimeCreated = DateTime.UtcNow
         };
