@@ -1,11 +1,178 @@
-﻿#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+﻿* {
+    box-sizing: border-box;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #1f2937;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+
+.topbar {
+    background-color: #1f2937;
+    color: white;
+    padding: 16px 32px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background-color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.brand span {
+    font-size: 13px;
+    color: #cbd5e1;
+}
+
+/* Main */
+
+.main-content {
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Form */
+
+.report-form {
+    background-color: white;
+    padding: 36px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+    .report-form h2 {
+        margin: 0 0 8px;
+        color: #111827;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .report-form > p {
+        margin: 0 0 30px;
+        color: #64748b;
+        font-size: 15px;
+    }
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+    .form-group label {
+        margin-bottom: 8px;
+        color: #1f2937;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 15px;
+        line-height: 1.5;
+        background-color: white;
+        color: #1f2937;
+        resize: vertical;
+        min-height: 160px;
+    }
+
+        .form-group textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+/* Submit button */
+
+button[type="submit"] {
+    width: 100%;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+    button[type="submit"]:hover {
+        background-color: #1d4ed8;
+    }
+
+/* Footer */
+
+.footer {
+    margin-top: auto;
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .topbar {
+        padding: 14px 20px;
+    }
+
+    .main-content {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    .report-form {
+        padding: 24px 20px;
+    }
+
+        .report-form h2 {
+            font-size: 24px;
+        }
+
+    .footer {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 5px;
+    }
 }
