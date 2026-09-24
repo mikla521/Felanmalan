@@ -4,6 +4,7 @@ using Felanmalan.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Felanmalan.Server.Migrations
 {
     [DbContext(typeof(FelanmalanDbContext))]
-    partial class FelanmalanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260924134553_added-user-entity-changed-TimeCreated-to.Now")]
+    partial class addeduserentitychangedTimeCreatedtoNow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +42,6 @@ namespace Felanmalan.Server.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("TimeStarted")
                         .HasColumnType("datetime2");
