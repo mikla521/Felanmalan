@@ -32,7 +32,7 @@ body {
 .brand-icon {
     width: 42px;
     height: 42px;
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: #2563eb;
     display: flex;
     align-items: center;
@@ -44,6 +44,7 @@ body {
 .brand h1 {
     margin: 0;
     font-size: 20px;
+    font-weight: 600;
 }
 
 .brand span {
@@ -60,27 +61,32 @@ body {
     padding: 0 20px;
 }
 
-/* Form */
+/* Report form */
 
 .report-form {
     background-color: white;
     padding: 36px;
-    border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-    .report-form h2 {
-        margin: 0 0 8px;
-        color: #111827;
-        font-size: 28px;
-        font-weight: 700;
-    }
+.form-header {
+    margin-bottom: 30px;
+}
 
-    .report-form > p {
-        margin: 0 0 30px;
-        color: #64748b;
-        font-size: 15px;
-    }
+.report-form h2 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.report-form p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+}
 
 .form-group {
     display: flex;
@@ -90,48 +96,53 @@ body {
 
     .form-group label {
         margin-bottom: 8px;
-        color: #1f2937;
+        color: #334155;
+        font-size: 14px;
         font-weight: 600;
-        font-size: 15px;
     }
 
-    .form-group textarea {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-        font-family: inherit;
-        font-size: 15px;
-        line-height: 1.5;
-        background-color: white;
-        color: #1f2937;
-        resize: vertical;
-        min-height: 160px;
+.required {
+    color: #dc2626;
+}
+
+.form-group textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 13px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    background-color: white;
+    color: #1f2937;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+    .form-group textarea::placeholder {
+        color: #94a3b8;
     }
 
-        .form-group textarea::placeholder {
-            color: #94a3b8;
-        }
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
 
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-        }
-
-/* Submit button */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
 
 button[type="submit"] {
-    width: 100%;
-    padding: 13px 20px;
+    padding: 11px 22px;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: #2563eb;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.15s ease;
 }
 
     button[type="submit"]:hover {
@@ -170,9 +181,27 @@ button[type="submit"] {
             font-size: 24px;
         }
 
+    .form-actions {
+        justify-content: stretch;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+    }
+
     .footer {
         padding: 16px 20px;
         flex-direction: column;
         gap: 5px;
     }
+}
+
+.success-message {
+    margin-top: 20px;
+    padding: 12px 16px;
+    border: 1px solid #bbf7d0;
+    border-radius: 5px;
+    background-color: #f0fdf4;
+    color: #166534;
+    font-size: 14px;
 }
