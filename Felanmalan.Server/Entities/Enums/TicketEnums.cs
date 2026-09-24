@@ -9,6 +9,7 @@
     }
     public enum TicketCategory
     {
+        NotSet = 0,
         Hardware,
         Software,
         Network,
