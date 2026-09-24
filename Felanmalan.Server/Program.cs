@@ -2,12 +2,16 @@ using Felanmalan.Server.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
-string connString = "Data Source=localhost;Initial Catalog=Felanmalan;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Command Timeout=0";
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("Felanmalan")
+    ?? throw new InvalidOperationException(
+        "Connection string 'Felanmalan' was not found.");
 
 // Add services to the container.
 builder.Services.AddDbContext<FelanmalanDbContext>(options =>
-                options.UseSqlServer(connString));
+    options.UseSqlServer(connectionString));
+
 builder.Services.AddControllers();
 
 builder.Services
