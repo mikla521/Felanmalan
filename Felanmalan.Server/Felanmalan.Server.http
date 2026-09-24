@@ -1,6 +1,46 @@
 @Felanmalan.Server_HostAddress = http://localhost:5145
 
-GET {{Felanmalan.Server_HostAddress}}/weatherforecast/
+# Skapa en felanmälan (#35). Sparar ett ärende i den lokala databasen.
+# Förväntat svar: 201 med det sparade ärendet och dess Id.
+POST {{Felanmalan.Server_HostAddress}}/api/felanmalan
+Content-Type: application/json
 Accept: application/json
+
+{
+  "description": "Skärmen startar inte i sal 204.",
+  "category": "Hardware"
+}
+
+###
+
+# Tom beskrivning: förväntat 400.
+POST {{Felanmalan.Server_HostAddress}}/api/felanmalan
+Content-Type: application/json
+
+{
+  "description": "   ",
+  "category": "Hardware"
+}
+
+###
+
+# Saknad kategori: förväntat 400, ska inte automatiskt bli Hardware.
+POST {{Felanmalan.Server_HostAddress}}/api/felanmalan
+Content-Type: application/json
+
+{
+  "description": "Skärmen startar inte."
+}
+
+###
+
+# Okänd kategori: förväntat 400.
+POST {{Felanmalan.Server_HostAddress}}/api/felanmalan
+Content-Type: application/json
+
+{
+  "description": "Skärmen startar inte.",
+  "category": "Unknown"
+}
 
 ###
