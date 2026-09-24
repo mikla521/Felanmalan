@@ -44,3 +44,44 @@ Content-Type: application/json
 }
 
 ###
+
+
+# Testa login med rätt uppgifter.
+POST {{Felanmalan.Server_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@felanmalan.se",
+  "password": "demo123"
+}
+
+###
+
+# Ska bara fungera när användaren är autentiserad.
+GET {{Felanmalan.Server_HostAddress}}/api/auth/me
+Accept: application/json
+
+###
+# Fel lösenord: förväntat 401.
+POST {{Felanmalan.Server_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@felanmalan.se",
+  "password": "fel"
+}
+
+###
+
+###
+
+# Logga ut
+POST {{Felanmalan.Server_HostAddress}}/api/auth/logout
+
+###
+
+# Ska nu ge 401 eftersom användaren är utloggad.
+GET {{Felanmalan.Server_HostAddress}}/api/auth/me
+Accept: application/json
+
+###
