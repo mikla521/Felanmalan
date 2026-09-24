@@ -9,5 +9,6 @@ namespace Felanmalan.Server.Data
         {
         }
         public DbSet<Ticket> Ticket { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
