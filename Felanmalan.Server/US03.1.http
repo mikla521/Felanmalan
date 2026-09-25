@@ -1,0 +1,50 @@
+@HostAddress = http://localhost:5145
+@TicketId = 1
+
+# Logga in först. Efterföljande PUT-anrop behöver inloggningscookien.
+POST {{HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "support@felanmalan.se",
+  "password": "support123"
+}
+
+###
+
+# Byt TicketId till ett befintligt ärende. Detta ändrar din lokala databas.
+# Förväntat: 200 med det uppdaterade ärendet. Okänt ID ger 404.
+# Kategorier: NotSet=0, Hardware=1, Software=2, Network=3, Other=4.
+# Namn eller tal accepteras. NotSet återställer till ingen vald kategori.
+PUT {{HostAddress}}/api/felanmalan/{{TicketId}}/Category
+Content-Type: application/json
+
+{
+  "category": "Hardware"
+}
+
+###
+
+# Hämta listan och kontrollera att ärendet har den nya kategorin.
+GET {{HostAddress}}/api/felanmalan
+Accept: application/json
+
+###
+
+# Ogiltig kategori: förväntat 400. Ingen ändring sparas.
+PUT {{HostAddress}}/api/felanmalan/{{TicketId}}/Category
+Content-Type: application/json
+
+{
+  "category": 99
+}
+
+###
+
+# Saknad kategori: förväntat 400.
+PUT {{HostAddress}}/api/felanmalan/{{TicketId}}/Category
+Content-Type: application/json
+
+{}
+
+###

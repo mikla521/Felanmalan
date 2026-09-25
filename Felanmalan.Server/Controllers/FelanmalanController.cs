@@ -82,6 +82,25 @@ public class FelanmalanController : ControllerBase
         return StatusCode(StatusCodes.Status201Created, ticket);
     }
 
+    [Authorize]
+    [HttpPut("{ticketId}/Category")]
+    [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateCategory(int ticketId, [FromBody] UpdateTicketCategoryRequest request)
+    {
+        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+
+        if (ticket == null)
+            return NotFound();
+
+        ticket.Category = request.Category!.Value;
+        await _context.SaveChangesAsync();
+
+        return Ok(ticket);
+    }
+
     [HttpPut("{ticketId}/StatusInProgress")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
