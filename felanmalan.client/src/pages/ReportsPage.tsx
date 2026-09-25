@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { formatTicketTime } from "../utils/formatTicketTime";
 import TicketDetailsPage from "./TicketDetailsPage";
 
 type Ticket = {
@@ -11,37 +10,7 @@ type Ticket = {
     timeCreated: string;
 };
 
-function getStatusText(status: number) {
-    switch (status) {
-        case 0:
-            return "Ny";
-        case 1:
-            return "Pågående";
-        case 2:
-            return "Löst";
-        case 3:
-            return "Stängd";
-        default:
-            return "Okänd";
-    }
-}
 
-function getCategoryText(category: number) {
-    switch (category) {
-        case 0:
-            return "Ej kategoriserad";
-        case 1:
-            return "Hårdvara";
-        case 2:
-            return "Mjukvara";
-        case 3:
-            return "Nätverk";
-        case 4:
-            return "Övrigt";
-        default:
-            return "Okänd";
-    }
-}
 
 function ReportsPage() {
     const [tickets, setTickets] = useState<Ticket[]>([]);
