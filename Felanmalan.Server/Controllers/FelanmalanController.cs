@@ -2,6 +2,7 @@ using Felanmalan.Server.Contracts;
 using Felanmalan.Server.Data;
 using Felanmalan.Server.Entities;
 using Felanmalan.Server.Entities.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Felanmalan.Server.Controllers;
@@ -16,7 +17,7 @@ public class FelanmalanController : ControllerBase
     {
         _context = context;
     }
-
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
