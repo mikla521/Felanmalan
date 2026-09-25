@@ -85,3 +85,56 @@ GET {{Felanmalan.Server_HostAddress}}/api/auth/me
 Accept: application/json
 
 ###
+
+###
+# US11.4 - Testa inloggning
+
+# 1. Rätt inloggningsuppgifter: förväntat 200.
+POST {{Felanmalan.Server_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@felanmalan.se",
+  "password": "demo123"
+}
+
+###
+
+# 2. Autentiserad användare: förväntat 200 och användarens identitet.
+GET {{Felanmalan.Server_HostAddress}}/api/auth/me
+Accept: application/json
+
+###
+
+# 3. Logga ut.
+POST {{Felanmalan.Server_HostAddress}}/api/auth/logout
+
+###
+
+# 4. /me utan autentisering: förväntat 401.
+GET {{Felanmalan.Server_HostAddress}}/api/auth/me
+Accept: application/json
+
+###
+
+# 5. Skyddad funktion utan autentisering: förväntat 401.
+POST {{Felanmalan.Server_HostAddress}}/api/felanmalan
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description": "Test utan inloggning"
+}
+
+###
+
+# 6. Fel lösenord: förväntat 401.
+POST {{Felanmalan.Server_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@felanmalan.se",
+  "password": "fel"
+}
+
+###
