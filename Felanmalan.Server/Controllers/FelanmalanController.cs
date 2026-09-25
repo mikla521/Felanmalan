@@ -3,6 +3,7 @@ using Felanmalan.Server.Data;
 using Felanmalan.Server.Entities;
 using Felanmalan.Server.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Felanmalan.Server.Controllers;
 
@@ -36,4 +37,49 @@ public class FelanmalanController : ControllerBase
 
         return StatusCode(StatusCodes.Status201Created, ticket);
     }
+
+    [HttpPut("{ticketId}/StatusInProgress")]
+    [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> StatusInProgress(int ticketId)
+    {
+        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        if (ticket == null)
+            return NotFound();
+        ticket.Status = TicketStatus.InProgress;
+        ticket.TimeStarted = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        return StatusCode(StatusCodes.Status200OK);
+    }
+
+    [HttpPut("{ticketId}/StatusResolved")]
+    [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> StatusResolved(int ticketId)
+    {
+        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        if (ticket == null)
+            return NotFound();
+        ticket.Status = TicketStatus.Resolved;
+        await _context.SaveChangesAsync();
+
+        return StatusCode(StatusCodes.Status200OK);
+    }
+
+    //Ändrar status till Closed. Endpoint api/id/StatusCodeCLosed
+    [HttpPut("{ticketId}/StatusClosed")]
+    [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> StatusClosed(int ticketId)
+    {
+        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        if (ticket == null)
+            return NotFound();
+        ticket.Status = TicketStatus.Closed;
+        await _context.SaveChangesAsync();
+
+        return StatusCode(StatusCodes.Status200OK);
+    }
+
 }
