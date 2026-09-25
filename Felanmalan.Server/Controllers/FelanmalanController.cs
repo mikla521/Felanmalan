@@ -3,6 +3,7 @@ using Felanmalan.Server.Data;
 using Felanmalan.Server.Entities;
 using Felanmalan.Server.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Felanmalan.Server.Controllers;
 
@@ -15,6 +16,27 @@ public class FelanmalanController : ControllerBase
     public FelanmalanController(FelanmalanDbContext context)
     {
         _context = context;
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(List<TicketListItemDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<TicketListItemDto>>> GetAll()
+    {
+        var tickets = await _context.Ticket
+            .AsNoTracking()
+            .OrderByDescending(ticket => ticket.TimeCreated)
+            .ThenByDescending(ticket => ticket.Id)
+            .Select(ticket => new TicketListItemDto
+            {
+                Id = ticket.Id,
+                Description = ticket.Description,
+                Category = ticket.Category,
+                TimeStarted = ticket.TimeStarted,
+                TimeCreated = ticket.TimeCreated
+            })
+            .ToListAsync();
+
+        return Ok(tickets);
     }
 
     [HttpPost]

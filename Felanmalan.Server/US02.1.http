@@ -1,0 +1,21 @@
+@HostAddress = http://localhost:5145
+
+# Hämta ärendelistan (#39). Förväntat: 200 och en JSON-lista.
+# Tom databas ger []. Nyaste ärenden visas först.
+# Varje ärende innehåller id, description, category, timeStarted och timeCreated.
+# Category visas som tal: NotSet=0, Hardware=1, Software=2, Network=3, Other=4.
+GET {{HostAddress}}/api/felanmalan
+Accept: application/json
+
+###
+
+# Skapa ett testärende med befintligt API. Detta sparar i din lokala databas.
+# Kör GET-anropet igen efteråt och kontrollera att ärendet finns i listan.
+POST {{HostAddress}}/api/felanmalan
+Content-Type: application/json
+
+{
+  "description": "Test av ärendelistan för US02.1"
+}
+
+###
