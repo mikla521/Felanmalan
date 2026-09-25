@@ -106,26 +106,6 @@ function ReportsPage() {
                                 {ticket.description}
                             </p>
 
-                            <p>
-                                <strong>Kategori:</strong>{" "}
-                                {getCategoryText(ticket.category)}
-                            </p>
-
-                            <p>
-                                <strong>Status:</strong>{" "}
-                                {getStatusText(ticket.status)}
-                            </p>
-
-                            <p>
-                                <strong>Skapad:</strong>{" "}
-                                {formatTicketTime(ticket.timeCreated)}
-                            </p>
-
-                            <p>
-                                <strong>Påbörjad:</strong>{" "}
-                                {formatTicketTime(ticket.timeStarted)}
-                            </p>
-
                             <button
                                 className="ticket-button"
                                 type="button"
