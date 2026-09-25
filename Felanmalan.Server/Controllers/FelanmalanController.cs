@@ -40,6 +40,26 @@ public class FelanmalanController : ControllerBase
         return Ok(tickets);
     }
 
+    [Authorize(Roles = "Manager")] //Tänker att enbart manager kan se all denna info
+    [HttpGet("manager/{ticketId}")]
+    public async Task<ActionResult<TicketManagerDto>> GetTicket(int ticketId)
+    {
+        var ticket = await _context.Ticket
+            .FirstOrDefaultAsync(t => t.Id == ticketId);
+        if (ticket == null)
+            return NotFound();
+
+        var ticketDto = new TicketManagerDto
+        {
+            Id = ticket.Id,
+            TimeCreated = ticket.TimeCreated,
+            TimeStarted = ticket.TimeStarted
+        };
+
+
+        return Ok(ticketDto);
+    }
+
     [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status201Created)]
