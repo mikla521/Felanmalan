@@ -41,7 +41,7 @@ public class FelanmalanController : ControllerBase
     }
 
     [Authorize(Roles = "Manager")] //Tänker att enbart manager kan se all denna info
-    [HttpGet("/{ticketId}")]
+    [HttpGet("manager/{ticketId}")]
     public async Task<ActionResult<TicketManagerDto>> GetTicket(int ticketId)
     {
         var ticket = await _context.Ticket
