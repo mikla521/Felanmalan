@@ -32,6 +32,7 @@ public class FelanmalanController : ControllerBase
                 Id = ticket.Id,
                 Description = ticket.Description,
                 Category = ticket.Category,
+                Status = ticket.Status,
                 TimeStarted = ticket.TimeStarted,
                 TimeCreated = ticket.TimeCreated
             })
