@@ -75,6 +75,13 @@ body {
     margin-bottom: 30px;
 }
 
+.form-header h2 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 600;
+}
+
 .report-form h2 {
     margin: 0 0 8px;
     color: #111827;
@@ -205,3 +212,90 @@ button[type="submit"] {
     color: #166534;
     font-size: 14px;
 }
+
+.login-form {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+    .login-form h2 {
+        margin: 0 0 8px;
+        font-size: 26px;
+    }
+
+    .login-form .form-header p {
+        margin: 0 0 28px;
+        color: #64748b;
+    }
+
+    .login-form .form-group input {
+        width: 100%;
+        height: 44px;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 15px;
+        color: #1f2933;
+        background-color: white;
+    }
+
+        .login-form .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+        }
+
+.login-button {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .login-button:hover {
+        background-color: #1d4ed8;
+    }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 32px;
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+    .user-info > div {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 14px;
+    }
+
+.logout-button {
+    width: auto;
+    padding: 8px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: white;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .logout-button:hover {
+        background-color: #f1f5f9;
+    }

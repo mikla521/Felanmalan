@@ -28,7 +28,8 @@ namespace Felanmalan.Server.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.UserRole.ToString())
             };
 
             var identity = new ClaimsIdentity(
@@ -55,11 +56,13 @@ namespace Felanmalan.Server.Controllers
         {
             var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             return Ok(new
             {
                 id,
-                email
+                email,
+                role
             });
         }
 

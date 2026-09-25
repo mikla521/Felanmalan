@@ -1,68 +1,90 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
-type LoginPageProps = {
-  onLogin: () => void;
-};
+function LoginPage() {
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
-export default function LoginPage({ onLogin }: LoginPageProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setError("");
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+        try {
+            const response = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
 
-    if (response.ok) {
-      setMessage("Inloggningen lyckades!");
-      onLogin();
-    } else {
-      setMessage("Fel email eller lösenord.");
+            if (!response.ok) {
+                setError("Felaktig e-postadress eller lösenord.");
+                return;
+            }
+
+            await login();
+            navigate("/user/report");
+        } catch {
+            setError("Kunde inte logga in.");
+        }
     }
-  }
 
-  return (
-    <div>
-      <h1>Logga in</h1>
+    return (
+        <main className="main-content">
+            <section className="login-form">
+                <div className="form-header">
+                    <h2>Logga in</h2>
+                    <p>Logga in för att använda Felanmälan.</p>
+                </div>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="email">E-post</label>
+                        <input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            required
+                        />
+                    </div>
 
-        <div>
-          <label htmlFor="password">Lösenord</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Lösenord</label>
+                        <input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                            required
+                        />
+                    </div>
 
-        <button type="submit">Logga in</button>
-      </form>
+                    <div className="form-actions">
+                        <button type="submit" className="login-button">
+                            Logga in
+                        </button>
+                    </div>
+                </form>
 
-      {message && <p>{message}</p>}
-    </div>
-  );
+                {error && (
+                    <div className="success-message">
+                        {error}
+                    </div>
+                )}
+            </section>
+        </main>
+    );
 }
+
+export default LoginPage;
