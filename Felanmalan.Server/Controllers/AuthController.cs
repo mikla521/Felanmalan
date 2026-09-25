@@ -45,7 +45,7 @@ namespace Felanmalan.Server.Controllers
             return Ok(new
             {
                 user.Id,
-                user.Email
+                user.Email,
             });
         }
 

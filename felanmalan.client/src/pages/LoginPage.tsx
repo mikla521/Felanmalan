@@ -32,8 +32,13 @@ function LoginPage() {
                 return;
             }
 
-            await login();
-            navigate("/user/report");
+            const loggedInUser = await login();
+
+            if (loggedInUser?.role === "Support") {
+                navigate("/support/reports");
+            } else {
+                navigate("/user/report");
+            }
         } catch {
             setError("Kunde inte logga in.");
         }
