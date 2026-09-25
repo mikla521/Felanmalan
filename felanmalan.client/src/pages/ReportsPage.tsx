@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { formatTicketTime } from "../utils/formatTicketTime";
+import TicketDetailsPage from "./TicketDetailsPage";
 
 type Ticket = {
     id: number;
@@ -43,6 +45,7 @@ function getCategoryText(category: number) {
 
 function ReportsPage() {
     const [tickets, setTickets] = useState<Ticket[]>([]);
+    const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -73,6 +76,15 @@ function ReportsPage() {
 
     if (error) {
         return <main className="main-content">{error}</main>;
+    }
+
+    if (selectedTicket) {
+        return (
+            <TicketDetailsPage
+                ticket={selectedTicket}
+                onBack={() => setSelectedTicket(null)}
+            />
+        );
     }
 
     return (
@@ -106,15 +118,21 @@ function ReportsPage() {
 
                             <p>
                                 <strong>Skapad:</strong>{" "}
-                                {new Date(ticket.timeCreated).toLocaleString("sv-SE")}
+                                {formatTicketTime(ticket.timeCreated)}
                             </p>
 
                             <p>
                                 <strong>Påbörjad:</strong>{" "}
-                                {ticket.timeStarted
-                                    ? new Date(ticket.timeStarted).toLocaleString("sv-SE")
-                                    : "Inte påbörjad"}
+                                {formatTicketTime(ticket.timeStarted)}
                             </p>
+
+                            <button
+                                className="ticket-button"
+                                type="button"
+                                onClick={() => setSelectedTicket(ticket)}
+                            >
+                                Visa detaljer
+                            </button>
                         </article>
                     ))}
                 </div>
