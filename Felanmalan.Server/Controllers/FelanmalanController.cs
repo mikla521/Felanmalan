@@ -2,6 +2,7 @@ using Felanmalan.Server.Contracts;
 using Felanmalan.Server.Data;
 using Felanmalan.Server.Entities;
 using Felanmalan.Server.Entities.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,9 +40,11 @@ public class FelanmalanController : ControllerBase
         return Ok(tickets);
     }
 
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create([FromBody] CreateTicketRequest request)
     {
         // [ApiController] returnerar 400 automatiskt om indata är ogiltig.
@@ -65,10 +68,13 @@ public class FelanmalanController : ControllerBase
     public async Task<IActionResult> StatusInProgress(int ticketId)
     {
         var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+
         if (ticket == null)
             return NotFound();
+
         ticket.Status = TicketStatus.InProgress;
         ticket.TimeStarted = DateTime.UtcNow;
+
         await _context.SaveChangesAsync();
 
         return StatusCode(StatusCodes.Status200OK);
@@ -80,27 +86,32 @@ public class FelanmalanController : ControllerBase
     public async Task<IActionResult> StatusResolved(int ticketId)
     {
         var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+
         if (ticket == null)
             return NotFound();
+
         ticket.Status = TicketStatus.Resolved;
+
         await _context.SaveChangesAsync();
 
         return StatusCode(StatusCodes.Status200OK);
     }
 
-    //Ändrar status till Closed. Endpoint api/id/StatusCodeCLosed
+    // Ändrar status till Closed.
     [HttpPut("{ticketId}/StatusClosed")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> StatusClosed(int ticketId)
     {
         var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+
         if (ticket == null)
             return NotFound();
+
         ticket.Status = TicketStatus.Closed;
+
         await _context.SaveChangesAsync();
 
         return StatusCode(StatusCodes.Status200OK);
     }
-
 }
