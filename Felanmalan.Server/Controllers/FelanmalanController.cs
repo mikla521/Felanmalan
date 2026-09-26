@@ -112,8 +112,12 @@ public class FelanmalanController : ControllerBase
         if (ticket == null)
             return NotFound();
 
+        if (ticket.TimeStarted == null)
+        {
+            ticket.TimeStarted = DateTime.UtcNow;
+        }
+
         ticket.Status = TicketStatus.InProgress;
-        ticket.TimeStarted = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
