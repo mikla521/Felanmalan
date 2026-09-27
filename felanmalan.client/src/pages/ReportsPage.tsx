@@ -51,7 +51,17 @@ function ReportsPage() {
         return (
             <TicketDetailsPage
                 ticket={selectedTicket}
-                onBack={() => setSelectedTicket(null)}
+                onBack={(newStatus) => {
+                    setTickets((currentTickets) =>
+                        currentTickets.map((ticket) =>
+                            ticket.id === selectedTicket.id
+                                ? { ...ticket, status: newStatus }
+                                : ticket
+                        )
+                    );
+
+                    setSelectedTicket(null);
+                }}
             />
         );
     }
