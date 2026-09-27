@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { formatTicketTime } from "../utils/formatTicketTime";
 
 export type TicketDetails = {
@@ -11,7 +12,7 @@ export type TicketDetails = {
 
 type TicketDetailsPageProps = {
     ticket: TicketDetails;
-    onBack: () => void;
+    onBack: (newStatus: number) => void;
 };
 
 const categoryNames = [
@@ -24,7 +25,43 @@ const categoryNames = [
 
 const statusNames = ["Ny", "Pågående", "Löst", "Stängd"];
 
+
+
 function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
+
+    const [status, setStatus] = useState(ticket.status);
+
+    async function handleStatusChange(newStatus: number) {
+        let endpoint = "";
+
+        switch (newStatus) {
+            case 1:
+                endpoint = `/api/felanmalan/${ticket.id}/StatusInProgress`;
+                break;
+
+            case 2:
+                endpoint = `/api/felanmalan/${ticket.id}/StatusResolved`;
+                break;
+
+            case 3:
+                endpoint = `/api/felanmalan/${ticket.id}/StatusClosed`;
+                break;
+
+            default:
+                return;
+        }
+
+        const response = await fetch(endpoint, {
+            method: "PUT",
+        });
+
+        if (!response.ok) {
+            throw new Error("Kunde inte uppdatera status.");
+        }
+
+        setStatus(newStatus);
+    }
+
     return (
         <main className="main-content">
             <section className="report-form">
@@ -44,7 +81,7 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                     </div>
                     <div className="ticket-detail">
                         <dt>Status</dt>
-                        <dd>{statusNames[ticket.status] ?? "Okänd status"}</dd>
+                        <dd>{statusNames[status] ?? "Okänd status"}</dd>
                     </div>
                     <div className="ticket-detail">
                         <dt>Skapad</dt>
@@ -56,9 +93,39 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                     </div>
                 </dl>
 
-                <button className="ticket-button" type="button" onClick={onBack}>
-                    Tillbaka
-                </button>
+                <div className="status-buttons">
+                    <button
+                        type="button"
+                        className="status-button in-progress"
+                        onClick={() => handleStatusChange(1)}
+                    >
+                        Påbörja
+                    </button>
+
+                    <button
+                        type="button"
+                        className="status-button resolved"
+                        onClick={() => handleStatusChange(2)}
+                    >
+                        Löst
+                    </button>
+
+                    <button
+                        type="button"
+                        className="status-button closed"
+                        onClick={() => handleStatusChange(3)}
+                    >
+                        Stäng
+                    </button>
+                </div>
+
+                <div>
+                    <button className="ticket-button" type="button" onClick={() => onBack(status)}>
+                        Tillbaka
+                    </button>
+                </div>
+
+                
             </section>
         </main>
     );

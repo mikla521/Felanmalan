@@ -378,3 +378,43 @@ button[type="submit"],
         gap: 4px;
     }
 }
+
+.status-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.status-button {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .status-button.in-progress {
+        background-color: #d97706;
+    }
+
+        .status-button.in-progress:hover {
+            background-color: #b45309;
+        }
+
+    .status-button.resolved {
+        background-color: #16a34a;
+    }
+
+        .status-button.resolved:hover {
+            background-color: #15803d;
+        }
+
+    .status-button.closed {
+        background-color: #475569;
+    }
+
+        .status-button.closed:hover {
+            background-color: #334155;
+        }
