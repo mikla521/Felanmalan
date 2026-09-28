@@ -1,18 +1,26 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../auth/AuthContext";
 
-function ProtectedRoute() {
-  const { user, loading } = useAuth();
+type ProtectedRouteProps = {
+    roles?: string[];
+};
 
-  if (loading) {
-    return <p>Laddar...</p>;
-  }
+function ProtectedRoute({ roles }: ProtectedRouteProps) {
+    const { user, loading } = useAuth();
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+    if (loading) {
+        return <p>Laddar...</p>;
+    }
 
-  return <Outlet />;
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
+    if (roles && !roles.includes(user.role)) {
+        return <Navigate to="/access-denied" replace />;
+    }
+
+    return <Outlet />;
 }
 
 export default ProtectedRoute;
