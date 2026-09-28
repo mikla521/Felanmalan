@@ -1,6 +1,6 @@
 # Statusrapport till styrgruppen
 
-**Team:**
+**Team:** 2C
 **Datum:** 30 september 2026
 **Inlämnad senast:** kl. 08:00
 
@@ -8,7 +8,11 @@
 
 ## Klart och accepterat mot Definition of Done
 
--
+- Kodgranskning: All kod har granskats av minst en annan utvecklare och eventuella anmärkningar har åtgärdats.
+- Dokumentation: Eventuell nödvändig dokumentation har uppdaterats, inklusive användarhandböcker och systemdokumentation.
+- Integration: Koden har integrerats i huvudkodbasen och byggt utan fel.
+- Användartestning: Användartester har genomförts där det är relevant, och feedback har införlivats. 
+- Godkännande av Produktägare: Produktägaren har granskat och godkänt inkrementet.
 
 ## Inte klart
 
