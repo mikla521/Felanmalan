@@ -34,10 +34,13 @@ function LoginPage() {
 
             const loggedInUser = await login();
 
-            if (loggedInUser?.role === "Support") {
-                navigate("/support/reports");
-            } else {
+            if (loggedInUser?.role === "User") {
                 navigate("/user/report");
+            } else if (
+                loggedInUser?.role === "Support" ||
+                loggedInUser?.role === "Manager"
+            ) {
+                navigate("/support/reports");
             }
         } catch {
             setError("Kunde inte logga in.");

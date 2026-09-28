@@ -5,17 +5,32 @@ import AppLayout from "./components/layout/AppLayout";
 import CreateReportPage from "./pages/CreateReportPage";
 import LoginPage from "./pages/LoginPage";
 import ReportsPage from "./pages/ReportsPage";
+import AccessDeniedPage from "./pages/AccessDeniedPage";
 
 function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/access-denied" element={<AccessDeniedPage />} />
 
                 <Route element={<ProtectedRoute />}>
                     <Route element={<AppLayout />}>
-                        <Route path="/user/report" element={<CreateReportPage />} />
-                        <Route path="/support/reports" element={<ReportsPage />} />
+
+                        <Route element={<ProtectedRoute roles={["User"]} />}>
+                            <Route
+                                path="/user/report"
+                                element={<CreateReportPage />}
+                            />
+                        </Route>
+
+                        <Route element={<ProtectedRoute roles={["Support", "Manager"]} />}>
+                            <Route
+                                path="/support/reports"
+                                element={<ReportsPage />}
+                            />
+                        </Route>
+
                     </Route>
                 </Route>
 
