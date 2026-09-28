@@ -29,6 +29,7 @@ const statusNames = ["Ny", "Pågående", "Löst", "Stängd"];
 
 function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
 
+    const [category, setCategory] = useState(ticket.category);
     const [status, setStatus] = useState(ticket.status);
 
     async function handleStatusChange(newStatus: number) {
@@ -92,6 +93,24 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                         <dd>{formatTicketTime(ticket.timeStarted)}</dd>
                     </div>
                 </dl>
+
+                <div className="form-group">
+                    <label htmlFor="category">Välj kategori</label>
+                    <select
+                        id="category"
+                        value={category}
+                        onChange={(event) => setCategory(Number(event.target.value))}
+                    >
+                        {categoryNames.map((name, index) => (
+                            <option key={index} value={index}>
+                                {name}
+                            </option>
+                        ))}
+                    </select>
+                    {category !== ticket.category && (
+                        <p role="status">Ändringen är inte sparad.</p>
+                    )}
+                </div>
 
                 <div className="status-buttons">
                     <button
