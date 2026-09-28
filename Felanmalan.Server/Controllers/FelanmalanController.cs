@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Felanmalan.Server.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/felanmalan")]
 public class FelanmalanController : ControllerBase
@@ -19,6 +20,7 @@ public class FelanmalanController : ControllerBase
         _context = context;
     }
 
+    [Authorize(Roles = "Support,Manager")]
     [HttpGet]
     [ProducesResponseType(typeof(List<TicketListItemDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<TicketListItemDto>>> GetAll()
@@ -83,7 +85,7 @@ public class FelanmalanController : ControllerBase
         return StatusCode(StatusCodes.Status201Created, ticket);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Support,Manager")]
     [HttpPut("{ticketId}/Category")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -102,6 +104,7 @@ public class FelanmalanController : ControllerBase
         return Ok(ticket);
     }
 
+    [Authorize(Roles = "Support,Manager")]
     [HttpPut("{ticketId}/StatusInProgress")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -124,6 +127,7 @@ public class FelanmalanController : ControllerBase
         return StatusCode(StatusCodes.Status200OK);
     }
 
+    [Authorize(Roles = "Support,Manager")]
     [HttpPut("{ticketId}/StatusResolved")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -141,6 +145,7 @@ public class FelanmalanController : ControllerBase
         return StatusCode(StatusCodes.Status200OK);
     }
 
+    [Authorize(Roles = "Support,Manager")]
     // Ändrar status till Closed.
     [HttpPut("{ticketId}/StatusClosed")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
