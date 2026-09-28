@@ -19,7 +19,11 @@ Så här kom vi fram till det: Beräkningen bygger på att vi hade en velocity p
 
 ## 2. Vad som faller ut om vi tar in den
 
-Detta åker ut ur sprinten: US8, US9, US10
+Detta åker ut ur sprinten: 
+- US8, Filtrera efter kategori
+- US9, Filtrera efter status
+- US10, Bekräftelse efter inskickat ärende
+- 
 Det betyder för leveransen den 30 september: Kan du som medarbetare rapportera dina fel i klartext. Supporttekniker kan se samtliga inkomna ärenden, se ärendedetaljer, uppdatera status och kategorisera ärenden. IT-chef se statistik på svarstider och kategorier och få ut loggning som status, vem som gjort statusändringar och när. Samtliga kan logga in med rätt behörigheter på säkert sätt.
 
 ## 3. Vår rekommendation
