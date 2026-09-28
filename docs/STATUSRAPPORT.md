@@ -19,7 +19,9 @@
 > Redovisa som **återstående arbete**, inte som "nästan klart".
 > Vad är kvar, och hur mycket?
 
--
+- Se spårning av ändringar i frontend
+- Filtrera efter status
+- Bekräftelse efter inskickat ärende
 
 ## Prognos
 
