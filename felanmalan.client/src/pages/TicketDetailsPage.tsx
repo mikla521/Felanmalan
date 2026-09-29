@@ -12,7 +12,7 @@ export type TicketDetails = {
 
 type TicketDetailsPageProps = {
     ticket: TicketDetails;
-    onBack: (newStatus: number) => void;
+    onBack: (newStatus: number, newTimeStarted: string | null) => void;
 };
 
 const categoryNames = [
@@ -31,6 +31,7 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
 
     const [category, setCategory] = useState(ticket.category);
     const [status, setStatus] = useState(ticket.status);
+    const [timeStarted, setTimeStarted] = useState(ticket.timeStarted);
 
     async function handleStatusChange(newStatus: number) {
         let endpoint = "";
@@ -60,7 +61,10 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
             throw new Error("Kunde inte uppdatera status.");
         }
 
+        const updatedTicket = await response.json();
+
         setStatus(newStatus);
+        setTimeStarted(updatedTicket.timeStarted);
     }
 
     return (
@@ -90,7 +94,7 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                     </div>
                     <div className="ticket-detail">
                         <dt>Påbörjad</dt>
-                        <dd>{formatTicketTime(ticket.timeStarted)}</dd>
+                        <dd>{formatTicketTime(timeStarted)}</dd>
                     </div>
                 </dl>
 
@@ -139,7 +143,7 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                 </div>
 
                 <div>
-                    <button className="ticket-button" type="button" onClick={() => onBack(status)}>
+                    <button className="ticket-button" type="button" onClick={() => onBack(status, timeStarted)}>
                         Tillbaka
                     </button>
                 </div>
