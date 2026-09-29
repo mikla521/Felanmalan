@@ -12,7 +12,7 @@ export type TicketDetails = {
 
 type TicketDetailsPageProps = {
     ticket: TicketDetails;
-    onBack: (newStatus: number) => void;
+    onBack: (newStatus: number, newCategory: number) => void;
 };
 
 const categoryNames = [
@@ -30,7 +30,35 @@ const statusNames = ["Ny", "Pågående", "Löst", "Stängd"];
 function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
 
     const [category, setCategory] = useState(ticket.category);
+    const [savedCategory, setSavedCategory] = useState(ticket.category);
+    const [savingCategory, setSavingCategory] = useState(false);
+    const [categoryError, setCategoryError] = useState("");
     const [status, setStatus] = useState(ticket.status);
+
+    async function handleCategorySave() {
+        setSavingCategory(true);
+        setCategoryError("");
+
+        try {
+            const response = await fetch(`/api/felanmalan/${ticket.id}/Category`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ category }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Kunde inte spara kategorin.");
+            }
+
+            const updatedTicket: TicketDetails = await response.json();
+            setSavedCategory(updatedTicket.category);
+            setCategory(updatedTicket.category);
+        } catch {
+            setCategoryError("Kunde inte spara kategorin.");
+        } finally {
+            setSavingCategory(false);
+        }
+    }
 
     async function handleStatusChange(newStatus: number) {
         let endpoint = "";
@@ -78,7 +106,7 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                     </div>
                     <div className="ticket-detail">
                         <dt>Kategori</dt>
-                        <dd>{categoryNames[ticket.category] ?? "Okänd kategori"}</dd>
+                        <dd>{categoryNames[savedCategory] ?? "Okänd kategori"}</dd>
                     </div>
                     <div className="ticket-detail">
                         <dt>Status</dt>
@@ -99,7 +127,11 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                     <select
                         id="category"
                         value={category}
-                        onChange={(event) => setCategory(Number(event.target.value))}
+                        onChange={(event) => {
+                            setCategory(Number(event.target.value));
+                            setCategoryError("");
+                        }}
+                        disabled={savingCategory}
                     >
                         {categoryNames.map((name, index) => (
                             <option key={index} value={index}>
@@ -107,9 +139,18 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                             </option>
                         ))}
                     </select>
-                    {category !== ticket.category && (
+                    {category !== savedCategory && (
                         <p role="status">Ändringen är inte sparad.</p>
                     )}
+                    {categoryError && <p role="alert">{categoryError}</p>}
+                    <button
+                        className="ticket-button"
+                        type="button"
+                        onClick={handleCategorySave}
+                        disabled={savingCategory || category === savedCategory}
+                    >
+                        {savingCategory ? "Sparar..." : "Spara kategori"}
+                    </button>
                 </div>
 
                 <div className="status-buttons">
@@ -139,7 +180,7 @@ function TicketDetailsPage({ ticket, onBack }: TicketDetailsPageProps) {
                 </div>
 
                 <div>
-                    <button className="ticket-button" type="button" onClick={() => onBack(status)}>
+                    <button className="ticket-button" type="button" onClick={() => onBack(status, savedCategory)} disabled={savingCategory}>
                         Tillbaka
                     </button>
                 </div>
