@@ -1,0 +1,25 @@
+@HostAddress = http://localhost:5145
+@TicketId = 1
+
+# Logga in först. GET-anropen kräver rollen Support eller Manager.
+# Använd ett annat konto om supportkontot har User-rollen i din lokala databas.
+POST {{HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "support@felanmalan.se",
+  "password": "support123"
+}
+
+###
+
+# Alla ändringar, nyaste först. Tom lista om inga finns.
+GET {{HostAddress}}/api/felanmalan/changes
+Accept: application/json
+
+###
+
+# Ändringar för ett ärende. Byt TicketId till ett befintligt ärende.
+# Tom lista om det saknas loggposter för detta ID.
+GET {{HostAddress}}/api/felanmalan/{{TicketId}}/changes
+Accept: application/json
