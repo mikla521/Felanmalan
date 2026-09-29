@@ -1,9 +1,5 @@
 # Överlämningsnot
 
-> Två av demons tio minuter är överlämning. Skriv noten först, prata sedan
-> utifrån den. Tänk er ett team som tar över koden på måndag utan att ha
-> träffat er.
-
 ## Var koden finns
 
 Källkoden finns i projektets GitHub-repository.
