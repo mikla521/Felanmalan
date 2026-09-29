@@ -34,13 +34,18 @@ function LoginPage() {
 
             const loggedInUser = await login();
 
-            if (loggedInUser?.role === "User") {
-                navigate("/user/report");
-            } else if (
-                loggedInUser?.role === "Support" ||
-                loggedInUser?.role === "Manager"
-            ) {
-                navigate("/support/reports");
+            switch (loggedInUser?.role) {
+                case "User":
+                    navigate("/user/report");
+                    break;
+                case "Support":
+                    navigate("/support/reports");
+                    break;
+                case "Manager":
+                    navigate("/manager/reports");
+                    break;
+                default:
+                    setError("Okänd roll.");
             }
         } catch {
             setError("Kunde inte logga in.");
