@@ -1,5 +1,6 @@
 using Felanmalan.Server.Contracts;
 using Felanmalan.Server.Data;
+using Felanmalan.Server.DTOs;
 using Felanmalan.Server.Entities;
 using Felanmalan.Server.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -61,6 +62,26 @@ public class FelanmalanController : ControllerBase
 
 
         return Ok(ticketDto);
+    }
+
+    [HttpGet("statistics/response-time")]
+    public async Task<ActionResult<List<AverageResponseTimeDTO>>> GetAverageResponseTime()
+    {
+        var statistics = await _context.Ticket
+            .AsNoTracking()
+            .Where(ticket => ticket.TimeStarted != null)
+            .GroupBy(ticket => ticket.Category)
+            .Select(group => new AverageResponseTimeDTO
+            {
+                Category = group.Key,
+                AverageResponseTimeInMinutes = group
+                    .Average(ticket => EF.Functions.DateDiffMinute(
+                        ticket.TimeCreated,
+                        ticket.TimeStarted!.Value))
+            })
+            .ToListAsync();
+
+        return Ok(statistics);
     }
 
     [Authorize]
