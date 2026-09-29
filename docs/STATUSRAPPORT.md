@@ -4,8 +4,6 @@
 **Datum:** 30 september 2026
 **Inlämnad senast:** kl. 08:00
 
-> En sida. Mer än så läser ingen styrgrupp.
-
 ## Klart och accepterat mot Definition of Done
 
 - Sprint 2 är genomförd enligt plan.
@@ -15,9 +13,6 @@
 - Teamets velocity var 21 Action Points i Sprint 2.
 
 ## Inte klart
-
-> Redovisa som **återstående arbete**, inte som "nästan klart".
-> Vad är kvar, och hur mycket?
 
 - 11 Action Points återstår och är planerade till Sprint 3.
 - Teamets velocity har varit 20 AP i Sprint 1 och 21 AP i Sprint 2.
@@ -40,5 +35,4 @@ Efter demon återstår 11 AP i Sprint 3. Prognosen bygger på teamets velocity p
 
 ## Beslut vi behöver av styrgruppen
 
-> Ett konkret beslut, formulerat så att det går att svara ja eller nej på.
 - Godkänner styrgruppen Sprint 2-leveransen som visas i demon och att de 11 återstående Action Points fortsätter som planerat i Sprint 3?
