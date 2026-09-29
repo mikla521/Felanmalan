@@ -5,6 +5,7 @@ using Felanmalan.Server.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Felanmalan.Server.Controllers;
 
@@ -43,12 +44,13 @@ public class FelanmalanController : ControllerBase
         return Ok(tickets);
     }
 
-    [Authorize(Roles = "Manager")] //Tänker att enbart manager kan se all denna info
+    [Authorize(Roles = "Manager")]
     [HttpGet("manager/{ticketId}")]
     public async Task<ActionResult<TicketManagerDto>> GetTicket(int ticketId)
     {
         var ticket = await _context.Ticket
             .FirstOrDefaultAsync(t => t.Id == ticketId);
+
         if (ticket == null)
             return NotFound();
 
@@ -58,7 +60,6 @@ public class FelanmalanController : ControllerBase
             TimeCreated = ticket.TimeCreated,
             TimeStarted = ticket.TimeStarted
         };
-
 
         return Ok(ticketDto);
     }
@@ -70,7 +71,6 @@ public class FelanmalanController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create([FromBody] CreateTicketRequest request)
     {
-        // [ApiController] returnerar 400 automatiskt om indata är ogiltig.
         var ticket = new Ticket
         {
             Description = request.Description.Trim(),
@@ -80,6 +80,9 @@ public class FelanmalanController : ControllerBase
         };
 
         _context.Ticket.Add(ticket);
+
+        AddChange(ticket, $"Skapad: {ticket.Description}");
+
         await _context.SaveChangesAsync();
 
         return StatusCode(StatusCodes.Status201Created, ticket);
@@ -91,14 +94,24 @@ public class FelanmalanController : ControllerBase
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateCategory(int ticketId, [FromBody] UpdateTicketCategoryRequest request)
+    public async Task<IActionResult> UpdateCategory(
+        int ticketId,
+        [FromBody] UpdateTicketCategoryRequest request)
     {
-        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        var ticket = await _context.Ticket
+            .FirstOrDefaultAsync(t => t.Id == ticketId);
 
         if (ticket == null)
             return NotFound();
 
+        var oldCategory = ticket.Category;
+
         ticket.Category = request.Category!.Value;
+
+        AddChange(
+            ticket,
+            $"Kategori: {oldCategory} → {ticket.Category}");
+
         await _context.SaveChangesAsync();
 
         return Ok(ticket);
@@ -110,10 +123,13 @@ public class FelanmalanController : ControllerBase
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> StatusInProgress(int ticketId)
     {
-        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        var ticket = await _context.Ticket
+            .FirstOrDefaultAsync(t => t.Id == ticketId);
 
         if (ticket == null)
             return NotFound();
+
+        var oldStatus = ticket.Status;
 
         if (ticket.TimeStarted == null)
         {
@@ -121,6 +137,10 @@ public class FelanmalanController : ControllerBase
         }
 
         ticket.Status = TicketStatus.InProgress;
+
+        AddChange(
+            ticket,
+            $"Status: {oldStatus} → {ticket.Status}");
 
         await _context.SaveChangesAsync();
 
@@ -133,12 +153,19 @@ public class FelanmalanController : ControllerBase
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> StatusResolved(int ticketId)
     {
-        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        var ticket = await _context.Ticket
+            .FirstOrDefaultAsync(t => t.Id == ticketId);
 
         if (ticket == null)
             return NotFound();
 
+        var oldStatus = ticket.Status;
+
         ticket.Status = TicketStatus.Resolved;
+
+        AddChange(
+            ticket,
+            $"Status: {oldStatus} → {ticket.Status}");
 
         await _context.SaveChangesAsync();
 
@@ -146,21 +173,43 @@ public class FelanmalanController : ControllerBase
     }
 
     [Authorize(Roles = "Support,Manager")]
-    // Ändrar status till Closed.
     [HttpPut("{ticketId}/StatusClosed")]
     [ProducesResponseType(typeof(Ticket), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> StatusClosed(int ticketId)
     {
-        var ticket = await _context.Ticket.FirstOrDefaultAsync(t => t.Id == ticketId);
+        var ticket = await _context.Ticket
+            .FirstOrDefaultAsync(t => t.Id == ticketId);
 
         if (ticket == null)
             return NotFound();
 
+        var oldStatus = ticket.Status;
+
         ticket.Status = TicketStatus.Closed;
+
+        AddChange(
+            ticket,
+            $"Status: {oldStatus} → {ticket.Status}");
 
         await _context.SaveChangesAsync();
 
-        return StatusCode(StatusCodes.Status200OK,ticket);
+        return StatusCode(StatusCodes.Status200OK, ticket);
+    }
+
+    private void AddChange(Ticket ticket, string change)
+    {
+        var userIdText = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(userIdText, out var userId))
+            throw new InvalidOperationException("Inloggad användare saknar id.");
+
+        _context.Changes.Add(new Changes
+        {
+            UserId = userId,
+            TimeStamp = DateTime.UtcNow,
+            Change = change,
+            Ticket = ticket
+        });
     }
 }
