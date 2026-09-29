@@ -7,7 +7,7 @@
 ## Var koden finns
 
 Repo:
-Gren som gäller:
+Gren som gäller: Master
 
 ## Hur man kör den
 
@@ -25,9 +25,9 @@ Förutsättningar (versioner, konton, konfiguration):
 |  |  |  |
 
 ## Vad ett mottagande team bör ta först
-
-1.
-2.
-3.
+Dessa flyttades från sprint 2 till sprint 3 efter kravförändring.
+1. US08 - Filtrera efter kategori
+2. US09 - Filtrera efter status
+3. US 10 - Bekräftelse efter inskick
 
 ## Vad vi skulle göra om vi fick en vecka till
