@@ -51,11 +51,11 @@ function ReportsPage() {
         return (
             <TicketDetailsPage
                 ticket={selectedTicket}
-                onBack={(newStatus, newTimeStarted) => {
+                onBack={(newStatus, newTimeStarted, newCategory) => {
                     setTickets((currentTickets) =>
                         currentTickets.map((ticket) =>
                             ticket.id === selectedTicket.id
-                                ? { ...ticket, status: newStatus, timeStarted: newTimeStarted }
+                                ? { ...ticket, status: newStatus, timeStarted: newTimeStarted, category: newCategory }
                                 : ticket
                         )
                     );
