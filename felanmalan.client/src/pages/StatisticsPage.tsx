@@ -1,38 +1,41 @@
 import { useEffect, useState } from "react";
 
-type AverageResponseTime = {
-    category: number | string;
-    averageResponseTimeInMinutes: number;
+ type AverageResponseTime = {
+     category: number;
+     averageResponseTimeInMinutes: number;
 };
+
+const categoryNames = [
+    "Ej kategoriserad",
+    "Hårdvara",
+    "Mjukvara",
+    "Nätverk",
+    "Övrigt",
+];
 
 function StatisticsPage() {
     const [averageTimes, setAverageTimes] = useState<AverageResponseTime[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function loadStatistics() {
             try {
-                const response = await fetch(
-                    "http://localhost:5145/api/felanmalan/statistics/response-time"
-                );
+                const response = await fetch("/api/felanmalan/statistics/response-time");
+
                 if (!response.ok) {
-                    throw new Error(`Servern svarade med ${response.status}`);
+                    throw new Error("Kunde inte hämta statistik");
                 }
+
                 const data: AverageResponseTime[] = await response.json();
                 setAverageTimes(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : "Något gick fel");
-            } finally {
-                setLoading(false);
+                console.log(data);
+            } catch (error) {
+                console.error("Kunde inte hämta statistik:", error);
             }
         }
 
         loadStatistics();
     }, []);
 
-    if (loading) return <p>Laddar...</p>;
-    if (error) return <p>Kunde inte hämta statistik: {error}</p>;
 
     return (
         <main className="main-content">
@@ -42,9 +45,9 @@ function StatisticsPage() {
                 <ul>
                     {averageTimes.map((item) => (
                         <li key={item.category}>
-                            {item.category}: {item.averageResponseTimeInMinutes.toFixed(1)} min
+                            {categoryNames[item.category]}: {item.averageResponseTimeInMinutes.toFixed(1)} min
                         </li>
-                    ))}
+                    ))} 
                 </ul>
             </div>
         </main>

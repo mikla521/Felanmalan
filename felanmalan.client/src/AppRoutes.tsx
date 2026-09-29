@@ -6,6 +6,7 @@ import CreateReportPage from "./pages/CreateReportPage";
 import LoginPage from "./pages/LoginPage";
 import ReportsPage from "./pages/ReportsPage";
 import AccessDeniedPage from "./pages/AccessDeniedPage";
+import StatisticsPage from "./pages/StatisticsPage";
 
 function AppRoutes() {
     return (
@@ -28,6 +29,13 @@ function AppRoutes() {
                             <Route
                                 path="/support/reports"
                                 element={<ReportsPage />}
+                            />
+                        </Route>
+
+                        <Route element={<ProtectedRoute roles={["Manager"]} />}>
+                            <Route
+                                path="/manager/reports"
+                                element={<StatisticsPage />}
                             />
                         </Route>
 
