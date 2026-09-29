@@ -6,17 +6,33 @@
 
 ## Var koden finns
 
-Repo:
-Gren som gäller: Master
+Källkoden finns i projektets GitHub-repository.
+
+Solution-struktur: 
+Innehåller två projekt, ett för frontend (felanmalan.client) och ett för backend (Felanmalan.Server)
 
 ## Hur man kör den
 
-```
-dotnet restore
-dotnet run --project src/<ert projekt>
-```
+1. Klona GitHub-repositoryt.
+2. Öppna Felanmalan.slnx i Visual Studio.
+3. Kontrollera att rätt Startup Project är konfigurerat.
+4. Kontrollera att nödvändiga User Secrets finns konfigurerade lokalt.
+5. Kontrollera att SQL Server LocalDB är tillgänglig och att rätt databas finns.
+6. Tryck F5.
+7. Visual Studio startar både backend och frontend samtidigt.
+8. Applikationen öppnas i webbläsaren.
 
-Förutsättningar (versioner, konton, konfiguration):
+#### Förutsättningar:
+Projektet använder User Secrets för lokala konfigurationsvärden som inte ska ligga i Git-repositoryt och har formatet:
+```{
+  "ConnectionStrings": {
+    "Felanmalan": "Data Source=(your_data_source;Initial Catalog=Felanmalan;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Command Timeout=0"
+  }
+}
+```
+#### User Secrets
+**Viktigt:** User Secrets ska inte läggas in i repositoryt.
+
 
 ## Vad som är känt men inte åtgärdat
 
