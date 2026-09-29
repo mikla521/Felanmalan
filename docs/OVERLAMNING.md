@@ -36,14 +36,19 @@ Projektet använder User Secrets för lokala konfigurationsvärden som inte ska 
 
 ## Vad som är känt men inte åtgärdat
 
+Inga kända buggar.
+
 | Vad | Hur allvarligt | Var i koden |
 |---|---|---|
-|  |  |  |
+| US08 Filtrera efter kategori | Medel | Frontend - ärendelistan |
+| US09 Filtrera efter status | Medel | Frontend - ärendelistan |
+| US10 Bekräftelse efter inskick | Låg | Frontend - skapa felanmälan |
 
 ## Vad ett mottagande team bör ta först
 Dessa flyttades från sprint 2 till sprint 3 efter kravförändring.
 1. US08 - Filtrera efter kategori
 2. US09 - Filtrera efter status
-3. US 10 - Bekräftelse efter inskick
+3. US10 - Bekräftelse efter inskick
 
 ## Vad vi skulle göra om vi fick en vecka till
+Vidareutveckla frontend med fler vyer och bättre överblick. Slutföra US08-US10, utöka testerna samt förbättra felhantering och dokumentation.
