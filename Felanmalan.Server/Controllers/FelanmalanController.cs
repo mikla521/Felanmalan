@@ -124,7 +124,7 @@ public class FelanmalanController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return StatusCode(StatusCodes.Status200OK);
+        return StatusCode(StatusCodes.Status200OK, ticket);
     }
 
     [Authorize(Roles = "Support,Manager")]
@@ -142,7 +142,7 @@ public class FelanmalanController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return StatusCode(StatusCodes.Status200OK);
+        return StatusCode(StatusCodes.Status200OK, ticket);
     }
 
     [Authorize(Roles = "Support,Manager")]
@@ -161,6 +161,6 @@ public class FelanmalanController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return StatusCode(StatusCodes.Status200OK);
+        return StatusCode(StatusCodes.Status200OK,ticket);
     }
 }
