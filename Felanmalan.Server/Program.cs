@@ -1,5 +1,6 @@
 using Felanmalan.Server.Data;
 using Felanmalan.Server.Entities;
+using Felanmalan.Server.Entities.Enums;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,12 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var dbContext = scope.ServiceProvider.GetRequiredService<FelanmalanDbContext>();
+    dbContext.Database.Migrate();
+}
+
+using (var scope = app.Services.CreateScope())
+{
     var db = scope.ServiceProvider.GetRequiredService<FelanmalanDbContext>();
 
     if (!db.User.Any(u => u.Email == "demo@felanmalan.se"))
@@ -39,7 +46,8 @@ using (var scope = app.Services.CreateScope())
         db.User.Add(new User
         {
             Email = "demo@felanmalan.se",
-            Password = "demo123"
+            Password = "demo123",
+            UserRole = UserRole.User
         });
     }
 
@@ -48,7 +56,17 @@ using (var scope = app.Services.CreateScope())
         db.User.Add(new User
         {
             Email = "support@felanmalan.se",
-            Password = "support123"
+            Password = "support123",
+            UserRole = UserRole.Support
+        });
+    }
+    if (!db.User.Any(u => u.Email == "manager@felanmalan.se"))
+    {
+        db.User.Add(new User
+        {
+            Email = "manager@felanmalan.se",
+            Password = "manager123",
+            UserRole = UserRole.Manager
         });
     }
 
